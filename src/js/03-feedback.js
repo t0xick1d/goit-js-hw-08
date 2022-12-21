@@ -5,29 +5,36 @@ const messageUrl = document.querySelector('textarea');
 const formUrl = document.querySelector('.feedback-form');
 
 const DATA_FORM_KEY = 'feedback-form-state';
+let formData = {};
 
 emailUrl.addEventListener('input', throttle(onChangeInput, 500));
 messageUrl.addEventListener('input', throttle(onChangeInput, 500));
 formUrl.addEventListener('submit', onSubmitForm);
 
-const formData = {};
+setCurrentValueForm();
 
 function onChangeInput(e) {
+  if (localStorage.key(DATA_FORM_KEY) === DATA_FORM_KEY) {
+    formData = JSON.parse(localStorage.getItem(DATA_FORM_KEY));
+  }
+  console.log('return', localStorage.key(DATA_FORM_KEY) === DATA_FORM_KEY);
+  console.log('after if');
   const inputValue = e.target.value;
   const inputName = e.target.name;
   formData[inputName] = inputValue;
   localStorage.setItem(DATA_FORM_KEY, JSON.stringify(formData));
 }
-setCurrentValueForm();
 
 function setCurrentValueForm() {
   const setActualValue = JSON.parse(localStorage.getItem(DATA_FORM_KEY));
 
-  console.log(setActualValue);
+  setActualValue &&
+    setActualValue.email &&
+    (emailUrl.value = setActualValue.email);
 
-  setActualValue.email ? (emailUrl.value = setActualValue.email) : '';
-
-  setActualValue.message ? (messageUrl.value = setActualValue.message) : '';
+  setActualValue &&
+    setActualValue.message &&
+    (messageUrl.value = setActualValue.message);
 }
 
 function onSubmitForm(e) {
