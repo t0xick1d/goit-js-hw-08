@@ -36,11 +36,4 @@ function onSubmitForm(e) {
   localStorage.removeItem(KEY_FORM_DATA);
   formUrl.elements.email.value = '';
   formUrl.elements.message.value = '';
-
-  // const formDataUrl = new FormData(formUrl);
-  // formDataUrl.forEach((value, name) => {
-  //   console.log('form data url', name, value);
-
-  //   value = '';
-  // });
 }
